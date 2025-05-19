@@ -21,6 +21,10 @@
     text-align: center;
 }
 
+.text-align-left {
+    text-align: left;
+}
+
 .background-text-button {
     color: #1f43e8;
     text-align: center;

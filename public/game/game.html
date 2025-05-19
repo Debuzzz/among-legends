@@ -16,20 +16,19 @@
 
     <div class="flex flex-col justify-center items-center">
         <div id="role" class="flex flex-row justify-center">
-            <div class="flex flex-col justify-center items-center">
+            <div class="flex flex-col justify-center items-center lobby-margin">
                 <div class="flex justify-center items-center rounded w-full background-text white font-size-menu-giant font-semibold menu-margin-bottom">
                     Votre role :
                 </div>
                 <div class="flex flex-col justify-center items-center">
                     <div id="role-name" class="white font-bold text-align">
-                        Droïde
                     </div>
                     <img id="role-img" src="../img/droide.png" alt="Droïde">
 
                 </div>
             </div>
 
-            <div class="flex flex-col min-w-half menu">
+            <div class="flex flex-col min-w-half menu lobby-margin background-text rounded text-align-left">
                 <div class="flex justify-center items-center rounded w-full background-text white font-size-menu-giant font-semibold menu-margin-bottom">
                     Objectifs :
                 </div>
@@ -69,7 +68,6 @@
         const ul = tpl.querySelector("#role-goals");
         ul.innerHTML = "";
         ul.appendChild(document.createElement("li")).textContent = data['goals'];
-
     }
 
     loadRole(role);
