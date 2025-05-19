@@ -12,22 +12,22 @@
   "imposter": {
     "name": "Imposteur",
     "img": "../img/imposter.png",
-    "goals": "L'imposteur doit absolument perdre la game sans se faire démasquer"
+    "goals": "L'imposteur doit perdre la game sans se faire démasquer"
   },
   "romeo": {
     "name": "Roméo",
     "img": "../img/romeo.png",
-    "goals": "Roméo est lié à un autre joueur et doit mourir à chaque fois son âme soeur meurt sinon il obtient un malus"
+    "goals": "Roméo est lié à un autre joueur et doit mourir à chaque fois que son âme soeur meurt sinon il obtient un malus"
   },
   "snake": {
     "name": "serpentin",
     "img": "../img/serpentin.png",
-    "goals": "Le serpentin doit gagner la game tout en ayant le plus de morts et le plus de dégats"
+    "goals": "Le serpentin doit gagner la game tout en ayant le plus de morts et le plus de dégâts"
   },
   "hero": {
     "name": "Super-Héros",
     "img": "../img/hero.png",
-    "goals": "Le super-héros doit absolument remporter la partie sinon il obtient un malus. Il gagne un bonus s'il est premier en nombre de kills ou de dégats ou d'assists."
+    "goals": "Le super-héros doit absolument remporter la partie sinon il obtient un malus. Il gagne un bonus s'il est premier en nombre de kills ou de dégâts ou d'assists."
   },
   "double": {
     "name": "Double-Face",
