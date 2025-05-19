@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8" />
+    <title>Among Legends - Room</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="icon" type="image/x-icon" href="../amongus.ico">
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body class="background h-screen w-screen min-h">
+<div class="flex flex-1 flex-col items-center justify-center relative h-full">
+    <img src="../img/among-t-l.png" alt="top left" class="absolute top-0 left-0"/>
+    <img src="../img/among-t-r.png" alt="top right" class="absolute top-0 right-0"/>
+    <img src="../img/among-b-l.png" alt="bot left" class="absolute bottom-0 left-0"/>
+    <img src="../img/among-b-r.png" alt="bot right" class="absolute bottom-0 right-0"/>
+
+    <div class="flex flex-col justify-center items-center">
+        <div id="role" class="flex flex-row justify-center">
+            <div class="flex flex-col justify-center items-center">
+                <div class="flex justify-center items-center rounded w-full background-text white font-size-menu-giant font-semibold menu-margin-bottom">
+                    Votre role :
+                </div>
+                <div class="flex flex-col justify-center items-center">
+                    <div id="role-name" class="white font-bold text-align">
+                        Droïde
+                    </div>
+                    <img id="role-img" src="../img/droide.png" alt="Droïde">
+
+                </div>
+            </div>
+
+            <div class="flex flex-col min-w-half menu">
+                <div class="flex justify-center items-center rounded w-full background-text white font-size-menu-giant font-semibold menu-margin-bottom">
+                    Objectifs :
+                </div>
+                <ul id="role-goals" class="list-disc pl-5 white"></ul>
+            </div>
+        </div>
+        <button type="button"
+                class="rounded w-full background-text-button font-size-menu font-semibold height-menu menu-margin-top"
+        >
+            Fin de partie
+        </button>
+    </div>
+
+
+</div>
+<script>
+    const socket = io();
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const role = urlParams.get('role');
+
+    async function loadRole(roleKey) {
+        /* récupère le JSON */
+        const res = await fetch("/data/roles.json");
+        const roles = await res.json();
+        const data = roles[roleKey];
+        if (!data) return console.error("Role inconnu :", roleKey);
+
+        const tpl = document.getElementById("role");
+        console.log(data['name']);
+        console.log(data['img']);
+        /* remplit les champs */
+        tpl.querySelector("#role-name").textContent = data["name"];
+        tpl.querySelector("#role-img").src          = data['img'];
+        tpl.querySelector("#role-img").alt          = data["name"];
+
+        const ul = tpl.querySelector("#role-goals");
+        ul.innerHTML = "";
+        ul.appendChild(document.createElement("li")).textContent = data['goals'];
+
+    }
+
+    loadRole(role);
+</script>
+</body>
+</html>

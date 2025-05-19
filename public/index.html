@@ -1,0 +1,60 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Among Legends</title>
+    <link rel="icon" type="image/x-icon" href="/amongus.ico">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="background h-screen w-screen min-h">
+<div class="flex flex-1 flex-col items-center justify-center relative h-full">
+<img src="img/among-t-l.png" alt="top left" class="absolute top-0 left-0"/>
+<img src="img/among-t-r.png" alt="top right" class="absolute top-0 right-0"/>
+<img src="img/among-b-l.png" alt="bot left" class="absolute bottom-0 left-0"/>
+<img src="img/among-b-r.png" alt="bot right" class="absolute bottom-0 right-0"/>
+
+<div class="flex flex-col items-center justify-center menu">
+    <img src="img/among_legend_logo.png" alt="among legend logo" class="logo relative"/>
+    <div class="flex justify-center items-center rounded w-full background-text white font-size-menu font-semibold">
+        Un jeu d'équipe et de trahison ... sur LOL
+    </div>
+    <input id="username"
+           class="rounded w-full background-text white font-size-menu font-semibold height-menu"
+           placeholder="Username"
+    />
+    <button type="button"
+            class="rounded w-full background-text-button font-size-menu font-semibold height-menu menu-margin-bottom"
+            onclick="createRoom()">
+        Create Room
+    </button>
+    <input id="roomCode"
+           class="rounded w-full background-text white font-size-menu font-semibold height-menu"
+           placeholder="Room Code"
+    />
+    <button
+            type="button"
+            class="rounded w-full background-text-button font-size-menu font-semibold height-menu"
+            onclick="joinRoom()">
+        Join Room
+    </button>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    function createRoom() {
+        const username = document.getElementById('username').value;
+        const randomRoomCode = Math.random().toString(36).substring(2, 8).toUpperCase();
+        window.location.href = `/room?code=${randomRoomCode}&username=${encodeURIComponent(username)}&action=create`;
+    }
+
+    function joinRoom() {
+        console.log('Joining room');
+        const username = document.getElementById('username').value;
+        const roomCode = document.getElementById('roomCode').value.toUpperCase();
+        window.location.href = `/room?code=${roomCode}&username=${encodeURIComponent(username)}&action=join`;
+    }
+
+</script>
+</div>
+</body>
+</html>

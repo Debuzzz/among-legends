@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8" />
+    <title>Among Legends - Room</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="icon" type="image/x-icon" href="../amongus.ico">
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body class="background h-screen w-screen min-h">
+<div class="flex flex-1 flex-col items-center justify-center relative h-full">
+    <img src="../img/among-t-l.png" alt="top left" class="absolute top-0 left-0"/>
+    <img src="../img/among-t-r.png" alt="top right" class="absolute top-0 right-0"/>
+    <img src="../img/among-b-l.png" alt="bot left" class="absolute bottom-0 left-0"/>
+    <img src="../img/among-b-r.png" alt="bot right" class="absolute bottom-0 right-0"/>
+
+    <div class="flex flex-col justify-center items-center">
+        <div class="white font-bold text-align">
+            CODE DE LA PARTIE
+        </div>
+        <!-- CODE -->
+        <div id="room-code-display"
+             class="flex white font-bold orange height-menu-double justify-center items-center menu menu-margin-bottom">
+        </div>
+        <div class="flex flex-row flex-wrap justify-center">
+            <div id="1" class="flex waiting-text lobby-margin background-text rounded lobby menu-margin-bottom justify-center items-center height-menu">
+                Waiting for player...
+            </div>
+            <div id="2" class="flex waiting-text lobby-margin background-text rounded lobby menu-margin-bottom justify-center items-center height-menu">
+                Waiting for player...
+            </div>
+            <div id="3" class="flex waiting-text lobby-margin background-text rounded lobby menu-margin-bottom justify-center items-center height-menu">
+                Waiting for player...
+            </div>
+            <div id="4" class="flex waiting-text lobby-margin background-text rounded lobby menu-margin-bottom justify-center items-center height-menu">
+                Waiting for player...
+            </div>
+            <div id="5" class="flex waiting-text lobby-margin background-text rounded lobby menu-margin-bottom justify-center items-center height-menu">
+                Waiting for player...
+            </div>
+        </div>
+        <button type="button"
+                id="start-button"
+                class="flex menu-margin-top waiting-text font-size-menu lobby-margin background-text rounded lobby menu-margin-bottom justify-center items-center height-menu-double"
+                disabled
+                onclick="startGame()">
+            START
+        </button>
+    </div>
+
+</div>
+<script>
+    const socket = io();
+
+    let playersInRoom = []
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const roomCode = urlParams.get('code');
+    const username = urlParams.get('username') || 'Invité';
+    const action = urlParams.get('action');
+    console.log(roomCode);
+    console.log(action);
+
+    const roomDisplay = document.getElementById('room-code-display');
+
+    if (!roomCode) {
+        roomDisplay.textContent = 'Code de room manquant !';
+    } else {
+        if (action === 'create' || roomDisplay.textContent == null) {
+            socket.emit('createRoom', { username, roomCode }, (response) => {
+                console.log(response);
+            });
+        }
+
+        roomDisplay.textContent = roomCode;
+
+        socket.emit('joinRoom', { roomCode, username }, (response) => {
+            if (response.success) {
+                console.log(`Rejoint la room ${roomCode}`);
+            } else {
+                console.log(response);
+                alert(response.message);
+            }
+        });
+
+        socket.on('updatePlayers', (players) => {
+            const startButton = document.getElementById('start-button');
+            for (let i = 1; i <= 5; i++) {
+                const div = document.getElementById(i.toString());
+                const player = players[i - 1];
+                if (player) {
+                    div.textContent = player.username;
+                    div.classList.add('white');
+                    div.classList.remove('waiting-text');
+                } else {
+                    div.textContent = 'Waiting for player...';
+                    div.classList.remove('white');
+                    div.classList.add('waiting-text');
+                }
+            }
+
+            if (players[0] && players[0].id === socket.id) {
+                startButton.disabled = false;
+                startButton.classList.add('white');
+                startButton.classList.remove('waiting-text');
+            } else {
+                startButton.classList.remove('white');
+                startButton.classList.add('waiting-text');
+                startButton.disabled = true;
+            }
+            playersInRoom = players;
+        });
+
+
+        socket.on('redirectToGame', ({ roomCode, role }) => {
+            window.location.href = `/game?code=${roomCode}&role=${role}`;
+        });
+    }
+
+    function startGame() {
+        socket.emit('startGame', roomCode);
+    }
+</script>
+</body>
+</html>

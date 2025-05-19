@@ -1,0 +1,190 @@
+/** {*/
+/*    border: 1px solid red;*/
+/*}*/
+
+.background {
+    background-color: #1f43e8;
+}
+
+.waiting-text {
+    color: dodgerblue;
+}
+
+.orange {
+    background-color: darkorange;
+    border-radius: 0.5rem;
+    font-size: 2rem;
+}
+
+.background-text {
+    background-color: #1a38be;
+    text-align: center;
+}
+
+.background-text-button {
+    color: #1f43e8;
+    text-align: center;
+}
+
+.text-align {
+    text-align: center;
+}
+
+.font-semibold {
+    font-weight: 600;
+}
+
+.font-bold {
+    font-weight: 700;
+}
+
+.flex {
+    display: flex;
+}
+
+.flex-1 {
+    flex: 1 1 0;
+}
+
+.flex-col {
+    flex-direction: column;
+}
+
+.flex-row {
+    flex-direction: row;
+}
+
+.flex-wrap {
+    flex-wrap: wrap;
+}
+
+.relative {
+    position: relative;
+}
+
+.absolute {
+    position: absolute;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.justify-start {
+    justify-content: flex-start;
+}
+
+.items-center {
+    align-items: center;
+}
+
+.align-content {
+    align-content: center;
+}
+
+.top-0 {
+    top: 0;
+}
+
+.bottom-0 {
+    bottom: 0;
+}
+
+.left-0 {
+    left: 0;
+}
+
+.right-0 {
+    right: 0;
+}
+
+.absolute {
+    position: absolute;
+}
+
+.h-full {
+    height: 100%;
+}
+
+.w-full {
+    width: 100%;
+}
+
+.min-w-half {
+    min-width: 50%;
+}
+
+
+.menu {
+    justify-items: stretch;
+    gap: 1rem;
+    width: 25rem;
+    max-width: 80%;
+}
+
+
+
+.lobby {
+    width: 15rem;
+    max-width: 80%;
+}
+
+html, body {
+    margin: 0;
+    height: 100%;
+    line-height: inherit;
+    font-family: Poppins, sans-serif;
+    font-feature-settings: normal;
+    font-variation-settings: normal;
+}
+
+input, button {
+    box-sizing: border-box;
+    width: 100%;
+    border: 0 solid transparent;
+}
+
+.white {
+    color: white;
+}
+
+.rounded {
+    border-radius: 0.5rem;
+}
+
+.font-size-menu {
+    font-size: 1rem;
+}
+
+.font-size-menu-giant {
+    font-size: 3rem;
+}
+
+.height-menu {
+    height: 3rem;
+}
+
+.height-menu-half {
+    height: 2rem;
+}
+
+.height-menu-double {
+    height: 5rem;
+}
+
+.menu-margin-bottom {
+    margin-bottom: 2rem;
+}
+
+.menu-margin-top {
+    margin-top: 2rem;
+}
+
+.lobby-margin {
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+#room-code-display {
+    font-size: 2rem;
+}
