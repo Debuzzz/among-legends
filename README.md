@@ -26,6 +26,7 @@ npm start
 ```
 #### Dans un autre terminal
 ```bash
-ngrok http 3000
+ngrok http <port-local-du-server>
 ```
-(maintenant, vous pouvez inviter vos amis avec le lien généré par ngrok)
+(le port local est donné dans la console lorsque vous lancez le serveur)
+maintenant, vous pouvez inviter vos amis avec le lien généré par ngrok
