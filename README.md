@@ -30,3 +30,7 @@ ngrok http <port-local-du-server>
 ```
 (le port local est donné dans la console lorsque vous lancez le serveur)
 maintenant, vous pouvez inviter vos amis avec le lien généré par ngrok
+
+---
+Pour changer le port du serveur, allez en bas du fichier server.js
+![alt text](demo.png)
