@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8" />
+    <title>Among Legends - Room</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="icon" type="image/x-icon" href="../amongus.ico">
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body class="background h-screen w-screen min-h">
+<div id="grayscale-overlay" class="hidden"></div>
+<div class="flex flex-1 flex-col items-center justify-center relative h-full">
+    <img src="../img/among-t-l.png" alt="top left" class="absolute top-0 left-0"/>
+    <img src="../img/among-t-r.png" alt="top right" class="absolute top-0 right-0"/>
+    <img src="../img/among-b-l.png" alt="bot left" class="absolute bottom-0 left-0"/>
+    <img src="../img/among-b-r.png" alt="bot right" class="absolute bottom-0 right-0"/>
+
+    <div class="flex flex-col justify-center items-center">
+        <div class="flex flex-row justify-center items-center white menu-margin-top menu-margin-bottom rounded title-scale">
+            <h1 class="text-3xl">Devine les rôles</h1>
+        </div>
+        <form id="1" class="flex flex-row justify-center items-center white background-text choice-menu menu-margin-bottom menu-margin-top">
+            <div id="p1" class="flex flex-row justify-center items-center">
+                Player 1
+            </div>
+
+        </form>
+        <form id="2" class="flex flex-row justify-center items-center white background-text choice-menu menu-margin-bottom menu-margin-top">
+            <div id="p2" class="flex flex-row justify-center items-center">
+                Player 2
+            </div>
+        
+        </form>
+        <form id="3" class="flex flex-row justify-center items-center white background-text choice-menu menu-margin-bottom menu-margin-top">
+            <div id="p3" class="flex flex-row justify-center items-center">
+                Player 3
+            </div>
+           
+        </form>
+        <form id="4" class="flex flex-row justify-center items-center white background-text choice-menu menu-margin-bottom menu-margin-top">
+            <div id="p4" class="flex flex-row justify-center items-center">
+                Player 4
+            </div>
+           
+        </form>
+        <form id="5" class="flex flex-row justify-center items-center white background-text choice-menu menu-margin-bottom menu-margin-top align-content">
+            <div id="p5" class="flex flex-row justify-center items-center">
+                Player 5
+            </div>
+        </form>
+        <div class="flex flex-row justify-center items-center white menu-margin-top menu-margin-bottom rounded title-scale">
+            <button id="result" class="button-style background-text-button rounded">Résultats
+            </button>
+        </div>
+    </div>
+
+
+</div>
+<script>
+    const socket = io();
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const role = urlParams.get('role');
+    const roomCode = urlParams.get('code');
+    const username = urlParams.get('username');
+
+    document.getElementById("result").addEventListener("click", function(e) {
+        e.preventDefault();
+
+        // Récupère les choix faits par le joueur
+        const guesses = [];
+        for (let i = 1; i <= 5; i++) {
+            const form = document.getElementById(i.toString());
+            if (!form || form.style.display === "none") continue;
+            const checked = form.querySelector('input[type="radio"]:checked');
+            if (checked) {
+                guesses.push({ playerIndex: i - 1, role: checked.value });
+            }
+        }
+
+        document.getElementById("grayscale-overlay").classList.remove("hidden");
+
+        socket.emit("playerResults", {
+            roomCode,
+            username,
+            guesses
+        });
+    });
+
+    // Réception du score final
+    socket.on("finalScore", ({ points }) => {
+        // Cache l'overlay grayscale
+        document.getElementById("grayscale-overlay").classList.add("hidden");
+        alert("Tu as obtenu " + points + " points !");
+    });
+
+    async function loadRolesName() {
+        // 1. Récupère la liste des rôles autorisés depuis le serveur
+        socket.emit('getRoles', (rolesResponse) => {
+            if (!rolesResponse.success || !rolesResponse.roles) {
+                console.error("Impossible de récupérer la liste des rôles du serveur");
+                return;
+            }
+            const allowedRoles = rolesResponse.roles;
+
+            // 2. Charge les infos détaillées des rôles (nom, etc.)
+            fetch("/data/roles.json")
+                .then(res => res.json())
+                .then(rolesData => {
+                    // 3. Demande la liste des joueurs au serveur via socket.io
+                    socket.emit('getRooms', { roomCode }, (response) => {
+                        if (!response.success || !response.room) {
+                            console.error("Impossible de récupérer la liste des joueurs");
+                            return;
+                        }
+                        // Pour chaque joueur (max 5), ajoute les radios dans le bon div
+                        response.room.slice(0, 5).forEach((player, idx) => {
+                            const playerDiv = document.getElementById(`${idx + 1}`);
+                            if (!playerDiv) return;
+
+                            // Désactive le form si c'est le joueur courant
+                            if (player.username === username) {
+                                playerDiv.style.display = "none";
+                                return;
+                            }
+
+                            playerDiv.innerHTML = `Role de ${player.username}:`;
+
+                            // Affiche seulement les rôles autorisés par le serveur
+                            allowedRoles.forEach(roleKey => {
+                                const roleObj = rolesData[roleKey];
+                                if (!roleObj) return; // Ignore si le rôle n'existe pas dans le JSON
+
+                                const label = document.createElement("label");
+                                label.className = "flex flex-row justify-center items-center";
+                                label.style.marginRight = "10px";
+
+                                const input = document.createElement("input");
+                                input.type = "radio";
+                                input.name = `role-player-${idx + 1}`;
+                                input.value = roleKey;
+
+                                label.appendChild(input);
+                                label.appendChild(document.createTextNode(roleObj.name));
+                                playerDiv.appendChild(label);
+                            });
+                        });
+                    });
+                });
+        });
+    }
+
+    loadRolesName()
+
+</script>
+</body>
+</html>

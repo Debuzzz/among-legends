@@ -1,6 +1,6 @@
-/** {*/
-/*    border: 1px solid red;*/
-/*}*/
+/* * {
+    border: 1px solid red;
+} */
 
 .background {
     background-color: #1f43e8;
@@ -126,7 +126,12 @@
     max-width: 80%;
 }
 
-
+.choice-menu {
+    justify-items: stretch;
+    flex-wrap: wrap;
+    gap: 1rem;
+    scale: 1.2;
+}
 
 .lobby {
     width: 15rem;
@@ -146,6 +151,10 @@ input, button {
     box-sizing: border-box;
     width: 100%;
     border: 0 solid transparent;
+}
+
+.title-scale {
+    scale: 1.5;
 }
 
 .white {
@@ -191,4 +200,25 @@ input, button {
 
 #room-code-display {
     font-size: 2rem;
+}
+
+.room-code-display-double {
+    font-size: 1.5rem;
+}
+
+#grayscale-overlay {
+    position: fixed;
+    z-index: 9999;
+    top: 0; left: 0; right: 0; bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: all;
+    background: rgba(0,0,0,0.5);
+    filter: grayscale(1);
+    transition: opacity 0.3s;
+    backdrop-filter: grayscale(1) blur(2px);
+}
+#grayscale-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
 }

@@ -20,7 +20,7 @@
     "goals": "Roméo est lié à un autre joueur et doit mourir à chaque fois que son âme soeur meurt sinon il obtient un malus"
   },
   "snake": {
-    "name": "serpentin",
+    "name": "Serpentin",
     "img": "../img/serpentin.png",
     "goals": "Le serpentin doit gagner la game tout en ayant le plus de morts et le plus de dégâts"
   },
@@ -33,5 +33,15 @@
     "name": "Double-Face",
     "img": "../img/double.png",
     "goals": "Le double-face doit gagner la game lorsqu'il est en mode «allié» et perdre la game lorsqu'il est en mode «imposteur». Son état change aléatoirement."
+  },
+  "butler": {
+    "name": "Majordome",
+    "img": "../img/majordome.png",
+    "goals": "Majordome est lié à un autre joueur et doit le feed (kda positif)"
+  },
+  "noflash": {
+    "name": "No flash",
+    "img": "../img/noflash.png",
+    "goals": "Tu ne peux recall que si ton flash est utilisé"
   }
 }

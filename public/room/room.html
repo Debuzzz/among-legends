@@ -58,6 +58,7 @@
     const roomCode = urlParams.get('code');
     const username = urlParams.get('username') || 'Invité';
     const action = urlParams.get('action');
+
     console.log(roomCode);
     console.log(action);
 
@@ -71,6 +72,8 @@
                 console.log(response);
             });
         }
+
+        socket.emit('registerPath', { path: window.location.pathname, username, roomCode});
 
         roomDisplay.textContent = roomCode;
 
@@ -111,9 +114,8 @@
             playersInRoom = players;
         });
 
-
-        socket.on('redirectToGame', ({ roomCode, role }) => {
-            window.location.href = `/game?code=${roomCode}&role=${role}`;
+        socket.on('redirectToGame', ({ roomCode, role, username }) => {
+            window.location.href = `/game?code=${roomCode}&role=${role}&username=${username}`;
         });
     }
 

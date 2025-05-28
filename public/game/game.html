@@ -35,8 +35,11 @@
                 <ul id="role-goals" class="list-disc pl-5 white"></ul>
             </div>
         </div>
-        <button type="button"
+        <button id="endButton"
+                type="button"
                 class="rounded w-full background-text-button font-size-menu font-semibold height-menu menu-margin-top"
+                disabled
+                onclick="endGame()"
         >
             Fin de partie
         </button>
@@ -48,6 +51,8 @@
     const socket = io();
 
     const urlParams = new URLSearchParams(window.location.search);
+    const roomCode = urlParams.get('code');
+    const username = urlParams.get('username');
     const role = urlParams.get('role');
 
     async function loadRole(roleKey) {
@@ -67,10 +72,39 @@
 
         const ul = tpl.querySelector("#role-goals");
         ul.innerHTML = "";
-        ul.appendChild(document.createElement("li")).textContent = data['goals'];
+        const li = document.createElement("li")
+        li.classList.add("room-code-display-double");
+        ul.appendChild(li).textContent = data['goals'];
+    }
+
+    socket.emit('registerPath', { path: window.location.pathname, username, roomCode});
+
+    socket.on('redirectToEnd', () => {
+        window.location.href = `/endgame?code=${roomCode}&role=${role}`;
+    });
+
+    function endGame() {
+        console.log("Endgame");
+        socket.emit('endGame', roomCode);
     }
 
     loadRole(role);
+
+    socket.emit('getRooms', { roomCode }, response => {
+        if (response.success) {
+            let players = response["room"];
+            console.log(players[0]);
+
+            if (players[0]["username"] === username) {
+                document.getElementById("endButton").disabled = false;
+            }
+        }
+    });
+
+    socket.on('redirectToEnd', () => {
+        window.location.href = `/endgame?code=${roomCode}&role=${role}&username=${username}`;
+    });
+
 </script>
 </body>
 </html>
