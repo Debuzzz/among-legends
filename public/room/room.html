@@ -81,6 +81,10 @@
             if (response.success) {
                 console.log(`Rejoint la room ${roomCode}`);
             } else {
+                if (response.message === "Room full") {
+                    window.location.href = `/`;
+                    return;
+                }
                 console.log(response);
                 alert(response.message);
             }

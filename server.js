@@ -51,10 +51,16 @@ io.on('connection', (socket) => {
         console.log(`${username} a créé la room ${roomCode}`);
         rooms[roomCode] = [{ id: socket.id, username, path: '/room' }];
         callback({ success: true, roomCode });
+        console.log(rooms);
     });
 
     socket.on('joinRoom', ({ roomCode, username }, callback) => {
         if (rooms[roomCode]) {
+            if (rooms[roomCode].length >= 5) {
+                console.log(rooms[roomCode]);
+                callback({ success: false, message: 'Room full' });
+                return;
+            }
             socket.join(roomCode);
 
             console.log(`${username} a rejoint la room ${roomCode}`);
