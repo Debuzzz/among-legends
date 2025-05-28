@@ -99,10 +99,33 @@
     });
 
     // Réception du score final
-    socket.on("finalScore", ({ points }) => {
+    socket.on("finalScore", ({ points, scores }) => {
         // Cache l'overlay grayscale
         document.getElementById("grayscale-overlay").classList.add("hidden");
-        alert("Tu as obtenu " + points + " points !");
+
+        console.log(points)
+        console.log(scores)
+
+        // Cherche le(s) gagnant(s)
+        let max = 0;
+        let winners = [];
+        for (const [name, score] of Object.entries(scores)) {
+            if (score > max) {
+                max = score;
+                winners = [name];
+            } else if (score === max) {
+                winners.push(name);
+            }
+        }
+
+        let winnerText = "";
+        if (winners.length === 1) {
+            winnerText = `Le gagnant est ${winners[0]} avec ${max} points !`;
+        } else {
+            winnerText = `Égalité entre ${winners.join(", ")} avec ${max} points !`;
+        }
+
+        alert(`Tu as obtenu ${points} points !\n${winnerText}`);
     });
 
     async function loadRolesName() {

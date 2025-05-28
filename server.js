@@ -171,7 +171,7 @@ io.on('connection', (socket) => {
 
             // Envoie le score à chaque joueur
             endgameResults[roomCode].forEach(result => {
-                io.to(result.socketId).emit("finalScore", { points: scores[result.username] });
+                io.to(result.socketId).emit("finalScore", { points: scores[result.username], scores: scores });
             });
 
             // Reset pour la prochaine partie
