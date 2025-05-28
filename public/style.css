@@ -217,6 +217,9 @@ input, button {
     filter: grayscale(1);
     transition: opacity 0.3s;
     backdrop-filter: grayscale(1) blur(2px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 #grayscale-overlay.hidden {
     opacity: 0;
