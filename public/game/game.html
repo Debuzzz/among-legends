@@ -48,6 +48,7 @@
 
 </div>
 <script>
+
     const socket = io();
 
     const urlParams = new URLSearchParams(window.location.search);
@@ -98,6 +99,19 @@
             if (players[0]["username"] === username) {
                 document.getElementById("endButton").disabled = false;
             }
+
+            for (let player of players) {
+                if (player.role === "romeo") {
+                    let rand = randomInt(0, 4);
+                    if (players[rand].username === username) rand = (rand + 1) % 5;
+
+                    const tpl = document.getElementById("role");
+                    const ul = tpl.querySelector("#role-goals");
+                    const li = document.createElement("li")
+                    li.classList.add("room-code-display-double");
+                    ul.appendChild(li).textContent = `Le joueur est lié a ${players[rand].username}`
+                }
+            }
         }
     });
 
@@ -105,6 +119,9 @@
         window.location.href = `/endgame?code=${roomCode}&role=${role}&username=${username}`;
     });
 
+    function randomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
 </script>
 </body>
 </html>

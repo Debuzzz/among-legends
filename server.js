@@ -165,7 +165,7 @@ io.on('connection', (socket) => {
                     const targetPlayer = playerRoles[guess.playerIndex];
                     if (targetPlayer && guess.role === targetPlayer.role) {
                         console.log("trouver");
-                        scores[result.username]++;
+                        scores[result.username]+= 2;
                     } else if (targetPlayer) {
                         // Si la réponse est fausse, le joueur qui devait être deviné gagne 1 point
                         console.log("cacher");
